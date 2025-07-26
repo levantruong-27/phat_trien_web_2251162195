@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Employee Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      fieldset {
+        margin-bottom: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+      legend {
+        font-weight: bold;
+        padding: 0 10px;
+      }
+      .form-row {
+        margin-bottom: 10px;
+      }
+      .form-row label {
+        display: inline-block;
+        width: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <fieldset>
+        <legend>Basic Info</legend>
+
+        <div class="form-row"><label>Employee ID:</label> 9</div>
+
+        <div class="form-row"><label>Last Name:</label> Dodsworth</div>
+
+        <div class="form-row">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" value="Anne" />
+        </div>
+
+        <div class="form-row">
+          <label>Gender:</label>
+          <input type="radio" name="gender" id="male" /><label for="male"
+            >Male</label
+          >
+          <input type="radio" name="gender" id="female" /><label for="female"
+            >Female</label
+          >
+          <input type="radio" name="gender" id="xxx" /><label for="xxx"
+            >XXX</label
+          >
+          <input type="radio" name="gender" id="zzz" checked /><label for="zzz"
+            >ZZZ</label
+          >
+        </div>
+
+        <div class="form-row">
+          <label for="title">Title:</label>
+          <input type="text" id="title" value="Sales Representative" />
+        </div>
+
+        <div class="form-row">
+          <label for="suffix">Suffix:</label>
+          <input type="text" id="suffix" value="Ms." />
+        </div>
+
+        <div class="form-row">
+          <label for="birthDate">Birth Date:</label>
+          <input type="date" id="birthDate" value="1969-07-02" />
+        </div>
+
+        <div class="form-row">
+          <label for="hireDate">Hire Date:</label>
+          <input type="date" id="hireDate" value="1994-11-15" />
+        </div>
+
+        <div class="form-row">
+          <label for="ssn">SSN:</label>
+          <input type="text" id="ssn" />
+        </div>
+
+        <div class="form-row">
+          <label for="reportsTo">Reports To:</label>
+          <select id="reportsTo">
+            <option>Buchanan</option>
+            <option>Buchanan2</option>
+            <option>Buchanan3</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Contact Info</legend>
+
+        <div class="form-row">
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="name@example.com" />
+        </div>
+
+        <div class="form-row">
+          <label for="address">Address:</label>
+          <input type="text" id="address" value="7 Houndstooth Rd." />
+        </div>
+
+        <div class="form-row">
+          <label for="city">City:</label>
+          <input type="text" id="city" value="London" />
+        </div>
+
+        <div class="form-row">
+          <label for="region">Region:</label>
+          <input type="text" id="region" />
+        </div>
+
+        <div class="form-row">
+          <label for="postal">Postal Code:</label>
+          <input type="text" id="postal" value="WG2 7LT" />
+        </div>
+
+        <div class="form-row">
+          <label for="country">Country:</label>
+          <select id="country">
+            <option>Russian Federation</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="phone">US Home Phone:</label>
+          <input type="tel" id="phone" value="(234)234-2342" />
+        </div>
+
+        <div class="form-row">
+          <label for="photo">Photo:</label>
+          <input type="text" id="photo" value="EmpID9.bmp" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Optional Info</legend>
+
+        <div class="form-row">
+          <label for="notes">Notes:</label><br />
+          <textarea id="notes" rows="4" cols="50"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label>Preferred Shift:</label>
+          <input type="checkbox" id="regular" /><label for="regular"
+            >Regular</label
+          >
+          <input type="checkbox" id="gravy" /><label for="gravy"
+            >Gravy Yard</label
+          >
+        </div>
+
+        <div class="form-row">
+          <label for="active">Active?</label>
+          <input type="checkbox" id="active" checked />
+        </div>
+
+        <div class="form-row">
+          <label>Are you human?</label>
+          <!-- You can insert a captcha or checkbox here -->
+          <input type="checkbox" />
+        </div>
+      </fieldset>
+
+      <input type="submit" value="Submit" />
+      <input type="reset" value="Cancel" />
+    </form>
+  </body>
+</html>
