@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 50px;
+  background-color: #f9f9f9;
+}
+
+.form-container {
+  background: #fff;
+  padding: 20px;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.result {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #333;
+}
