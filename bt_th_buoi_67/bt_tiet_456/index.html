@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý sinh viên</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+        background: #f4f4f4;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 0 auto 20px;
+      }
+
+      form input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      form button {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      form button:hover {
+        background: #0056b3;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+
+      .btn {
+        padding: 5px 10px;
+        margin: 0 3px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn-sua {
+        background: #ffc107;
+        color: white;
+      }
+
+      .btn-xoa {
+        background: #dc3545;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Quản lý sinh viên</h1>
+
+    <form id="formSV" onsubmit="return false;">
+      <input type="text" id="maSV" placeholder="Mã sinh viên" />
+      <input type="text" id="hoTen" placeholder="Họ tên" />
+      <input type="text" id="email" placeholder="Email" />
+      <button onclick="submitForm()">Thêm</button>
+    </form>
+
+    <table id="danhSach">
+      <thead>
+        <tr>
+          <th>Mã SV</th>
+          <th>Họ tên</th>
+          <th>Email</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Các dòng sinh viên sẽ được thêm ở đây -->
+      </tbody>
+    </table>
+
+    <script>
+      let selectedRow = null;
+
+      function validateForm() {
+        let maSV = document.getElementById("maSV").value.trim();
+        let hoTen = document.getElementById("hoTen").value.trim();
+        let email = document.getElementById("email").value.trim();
+
+        if (maSV === "") {
+          alert("Mã sinh viên không được để trống");
+          return false;
+        }
+
+        if (hoTen === "") {
+          alert("Họ tên không được để trống");
+          return false;
+        }
+
+        let regexEmail = /^\S+@\S+\.\S+$/;
+        if (!regexEmail.test(email)) {
+          alert("Email không hợp lệ");
+          return false;
+        }
+
+        return true;
+      }
+
+      function submitForm() {
+        if (!validateForm()) return;
+
+        if (selectedRow === null) {
+          themSinhVien();
+        } else {
+          capNhatSinhVien();
+        }
+      }
+
+      function themSinhVien() {
+        let maSV = document.getElementById("maSV").value.trim();
+        let hoTen = document.getElementById("hoTen").value.trim();
+        let email = document.getElementById("email").value.trim();
+
+        let table = document
+          .getElementById("danhSach")
+          .getElementsByTagName("tbody")[0];
+        let newRow = table.insertRow();
+
+        newRow.insertCell(0).innerText = maSV;
+        newRow.insertCell(1).innerText = hoTen;
+        newRow.insertCell(2).innerText = email;
+        let actionsCell = newRow.insertCell(3);
+        actionsCell.innerHTML = `
+        <button class="btn btn-sua" onclick="suaDong(this)">Sửa</button>
+        <button class="btn btn-xoa" onclick="xoaDong(this)">Xóa</button>
+      `;
+
+        thongBao("Thêm thành công!");
+        document.getElementById("formSV").reset();
+      }
+
+      function suaDong(btn) {
+        selectedRow = btn.parentElement.parentElement;
+
+        document.getElementById("maSV").value = selectedRow.cells[0].innerText;
+        document.getElementById("hoTen").value = selectedRow.cells[1].innerText;
+        document.getElementById("email").value = selectedRow.cells[2].innerText;
+
+        document.querySelector("form button").innerText = "Cập nhật";
+      }
+
+      function capNhatSinhVien() {
+        let maSV = document.getElementById("maSV").value.trim();
+        let hoTen = document.getElementById("hoTen").value.trim();
+        let email = document.getElementById("email").value.trim();
+
+        selectedRow.cells[0].innerText = maSV;
+        selectedRow.cells[1].innerText = hoTen;
+        selectedRow.cells[2].innerText = email;
+
+        thongBao("Cập nhật thành công!");
+        selectedRow = null;
+        document.getElementById("formSV").reset();
+        document.querySelector("form button").innerText = "Thêm";
+      }
+
+      function xoaDong(btn) {
+        if (confirm("Bạn có chắc chắn muốn xoá?")) {
+          btn.parentElement.parentElement.remove();
+          thongBao("Xoá thành công!");
+        }
+      }
+
+      function thongBao(msg) {
+        alert(msg); // Có thể thay bằng toast hoặc UI đẹp hơn
+      }
+    </script>
+  </body>
+</html>
