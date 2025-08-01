@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quản lý giao dịch</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        padding-bottom: 60px;
+      }
+      .table-actions button {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <span class="navbar-brand">Trường Đại học Thủy lợi</span>
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Nhập nội dung tìm kiếm"
+          />
+          <button class="btn btn-success">TÌM KIẾM</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <div class="d-flex justify-content-between flex-wrap mb-3">
+        <div>
+          <button class="btn btn-primary" onclick="openModal()">+ Thêm</button>
+          <button class="btn btn-success" onclick="exportCSV()">
+            📄 Xuất CSV
+          </button>
+        </div>
+        <input
+          id="searchBox"
+          class="form-control w-50"
+          placeholder="🔍 Tìm kiếm theo khách hàng, nhân viên, số tiền, ngày mua"
+        />
+      </div>
+
+      <table class="table table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>Hành động</th>
+            <th>ID</th>
+            <th>Khách hàng</th>
+            <th>Nhân viên</th>
+            <th>Số tiền</th>
+            <th>Ngày mua</th>
+          </tr>
+        </thead>
+        <tbody id="dataBody"></tbody>
+      </table>
+
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-danger" onclick="clearAll()">
+          🗑️ Xóa tất cả
+        </button>
+        <div id="summary">1 trong 10 kết quả</div>
+      </div>
+
+      <ul class="pagination justify-content-center mt-3" id="pagination"></ul>
+    </div>
+
+    <div class="modal fade" id="modalForm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Thêm giao dịch</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="text"
+              id="customer"
+              class="form-control mb-2"
+              placeholder="Khách hàng"
+            />
+            <input
+              type="text"
+              id="staff"
+              class="form-control mb-2"
+              placeholder="Nhân viên"
+            />
+            <input
+              type="number"
+              id="amount"
+              class="form-control mb-2"
+              placeholder="Số tiền"
+            />
+            <div id="errorText" class="text-danger mb-2"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">
+              Hủy
+            </button>
+            <button class="btn btn-success" onclick="addTransaction()">
+              Thêm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-primary text-white text-center py-3 mt-5">
+      <div class="container">
+        <h5>TRƯỜNG ĐẠI HỌC THỦY LỢI</h5>
+        <p>
+          Địa chỉ: 175 Tây Sơn, Đống Đa, Hà Nội<br />
+          Điện thoại: (024) 38522201 – Fax: (024) 35633351<br />
+          Email:
+          <a href="mailto:phongctctsv@tlu.edu.vn" class="text-white"
+            >phongctctsv@tlu.edu.vn</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      let data = [
+        {
+          id: 3001,
+          customer: "Ngô Văn Minh",
+          staff: "Lê Thị Huyền",
+          amount: 650000,
+          date: "10 Tháng 6 2024 9:00",
+        },
+        {
+          id: 3002,
+          customer: "Trần Thị Mai",
+          staff: "Nguyễn Văn Long",
+          amount: 310000,
+          date: "10 Tháng 6 2024 9:30",
+        },
+        {
+          id: 3003,
+          customer: "Lê Văn Hòa",
+          staff: "Phạm Thị Lan",
+          amount: 430000,
+          date: "10 Tháng 6 2024 10:00",
+        },
+        {
+          id: 3004,
+          customer: "Hoàng Thị Hạnh",
+          staff: "Lê Thị Huyền",
+          amount: 520000,
+          date: "10 Tháng 6 2024 10:20",
+        },
+        {
+          id: 3005,
+          customer: "Phạm Hữu Tài",
+          staff: "Nguyễn Văn Long",
+          amount: 290000,
+          date: "10 Tháng 6 2024 10:45",
+        },
+        {
+          id: 3006,
+          customer: "Võ Thị Ngọc",
+          staff: "Phạm Thị Lan",
+          amount: 800000,
+          date: "10 Tháng 6 2024 11:00",
+        },
+        {
+          id: 3007,
+          customer: "Đặng Văn Phúc",
+          staff: "Nguyễn Văn Long",
+          amount: 360000,
+          date: "10 Tháng 6 2024 11:20",
+        },
+        {
+          id: 3008,
+          customer: "Trịnh Thị Bích",
+          staff: "Lê Thị Huyền",
+          amount: 470000,
+          date: "10 Tháng 6 2024 11:40",
+        },
+        {
+          id: 3009,
+          customer: "Lý Văn Thắng",
+          staff: "Phạm Thị Lan",
+          amount: 210000,
+          date: "10 Tháng 6 2024 12:00",
+        },
+        {
+          id: 3010,
+          customer: "Nguyễn Thị Giang",
+          staff: "Nguyễn Văn Long",
+          amount: 540000,
+          date: "10 Tháng 6 2024 12:30",
+        },
+        {
+          id: 3011,
+          customer: "Bùi Thị Dung",
+          staff: "Lê Thị Huyền",
+          amount: 390000,
+          date: "10 Tháng 6 2024 13:00",
+        },
+        {
+          id: 3012,
+          customer: "Trần Văn Hiếu",
+          staff: "Phạm Thị Lan",
+          amount: 670000,
+          date: "10 Tháng 6 2024 13:20",
+        },
+        {
+          id: 3013,
+          customer: "Nguyễn Thị Lệ",
+          staff: "Nguyễn Văn Long",
+          amount: 250000,
+          date: "10 Tháng 6 2024 13:40",
+        },
+        {
+          id: 3014,
+          customer: "Đỗ Văn Khoa",
+          staff: "Lê Thị Huyền",
+          amount: 460000,
+          date: "10 Tháng 6 2024 14:00",
+        },
+        {
+          id: 3015,
+          customer: "Phan Thị Hòa",
+          staff: "Phạm Thị Lan",
+          amount: 720000,
+          date: "10 Tháng 6 2024 14:20",
+        },
+      ];
+
+      let currentPage = 1;
+      const perPage = 5;
+
+      function openModal() {
+        document.getElementById("customer").value = "";
+        document.getElementById("staff").value = "";
+        document.getElementById("amount").value = "";
+        document.getElementById("errorText").textContent = "";
+        new bootstrap.Modal(document.getElementById("modalForm")).show();
+      }
+
+      function renderTable() {
+        const tbody = document.getElementById("dataBody");
+        tbody.innerHTML = "";
+        const start = (currentPage - 1) * perPage;
+        const pageData = data.slice(start, start + perPage);
+
+        pageData.forEach((t, i) => {
+          const row = `<tr>
+          <td class="table-actions">
+            <button class="btn btn-warning btn-sm" onclick="edit(${
+              start + i
+            })">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="remove(${
+              start + i
+            })">🗑️</button>
+          </td>
+          <td>${t.id}</td>
+          <td>${t.customer}</td>
+          <td>${t.staff}</td>
+          <td>${t.amount.toLocaleString()}</td>
+          <td>${t.date}</td>
+        </tr>`;
+          tbody.innerHTML += row;
+        });
+
+        document.getElementById("summary").textContent = `${Math.min(
+          data.length,
+          start + 1
+        )}-${Math.min(start + perPage, data.length)} trong ${
+          data.length
+        } kết quả`;
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const total = Math.ceil(data.length / perPage);
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+
+        for (let i = 1; i <= total; i++) {
+          const li = document.createElement("li");
+          li.className = "page-item" + (i === currentPage ? " active" : "");
+          li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+          li.onclick = (e) => {
+            e.preventDefault();
+            currentPage = i;
+            renderTable();
+          };
+          pagination.appendChild(li);
+        }
+      }
+
+      function addTransaction() {
+        const customer = document.getElementById("customer").value.trim();
+        const staff = document.getElementById("staff").value.trim();
+        const amount = parseFloat(document.getElementById("amount").value);
+        const error = document.getElementById("errorText");
+
+        if (!customer || !staff || isNaN(amount)) {
+          error.textContent = "Không được để trống hoặc sai định dạng.";
+          return;
+        }
+
+        data.push({
+          id: Math.floor(Math.random() * 9000 + 1000),
+          customer,
+          staff,
+          amount,
+          date: new Date().toLocaleString("vi-VN"),
+        });
+        bootstrap.Modal.getInstance(
+          document.getElementById("modalForm")
+        ).hide();
+        renderTable();
+      }
+
+      function remove(index) {
+        if (confirm("Bạn có chắc muốn xóa giao dịch này?")) {
+          data.splice(index, 1);
+          renderTable();
+        }
+      }
+
+      function clearAll() {
+        if (confirm("Bạn có chắc muốn xóa toàn bộ dữ liệu?")) {
+          data = [];
+          renderTable();
+        }
+      }
+
+      function edit(index) {
+        const entry = data[index];
+        document.getElementById("customer").value = entry.customer;
+        document.getElementById("staff").value = entry.staff;
+        document.getElementById("amount").value = entry.amount;
+        document.getElementById("errorText").textContent = "";
+
+        const modal = new bootstrap.Modal(document.getElementById("modalForm"));
+        modal.show();
+
+        document.querySelector("#modalForm .btn-success").onclick =
+          function () {
+            entry.customer = document.getElementById("customer").value.trim();
+            entry.staff = document.getElementById("staff").value.trim();
+            entry.amount = parseFloat(document.getElementById("amount").value);
+            modal.hide();
+            renderTable();
+          };
+      }
+
+      function exportCSV() {
+        let csv = "ID,Khách hàng,Nhân viên,Số tiền,Ngày mua\n";
+        data.forEach((t) => {
+          csv += `${t.id},${t.customer},${t.staff},${t.amount},${t.date}\n`;
+        });
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "giao_dich.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      renderTable();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
