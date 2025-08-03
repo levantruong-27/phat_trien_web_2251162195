@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý nhân viên</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <span>Trường Đại học Thủy lợi</span>
+        <div class="nav-right">
+          <span>Trang chủ</span>
+          <span>Quản lý đơn hàng</span>
+          <input type="text" id="search" placeholder="Nhập nội dung tìm kiếm" />
+          <button id="btnSearch">Tìm kiếm</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="toolbar">
+        <button id="btnAdd">➕ THÊM MỚI</button>
+        <button id="btnExport">⬇️ XUẤT RA FILE</button>
+        <input type="text" id="searchName" placeholder="Tìm kiếm theo Tên" />
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Hành động</th>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Họ đệm</th>
+            <th>Địa chỉ</th>
+            <th>Hoạt động</th>
+          </tr>
+        </thead>
+        <tbody id="employeeTable">
+          <!-- dữ liệu sẽ được thêm bằng jQuery -->
+        </tbody>
+      </table>
+      <div class="footer-table">
+        Kết quả 1 đến <span id="totalResults">0</span>
+      </div>
+    </main>
+
+    <!-- Modal thêm nhân viên -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Thêm Nhân viên</h3>
+        <input type="text" id="inputTen" placeholder="Tên" />
+        <input type="text" id="inputHoDem" placeholder="Họ đệm" />
+        <input type="text" id="inputDiaChi" placeholder="Địa chỉ" />
+        <div class="modal-buttons">
+          <button id="btnCancel">Hủy</button>
+          <button id="btnSave">Thêm</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer">
+        <strong>TRƯỜNG ĐẠI HỌC THỦY LỢI</strong><br />
+        Địa chỉ: 175 Tây Sơn, Đống Đa, Hà Nội<br />
+        Email: phongctctsv@tlu.edu.vn
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
